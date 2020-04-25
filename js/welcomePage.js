@@ -40,7 +40,7 @@ function draw() {
 	if(count > 150){
 		textSize(40);
 		fill(255,255,255, (count-150)*20);
-		text("Click here when ready", width/2, (2.3*height)/3);
+		text("Click here to move on", width/2, (2.3*height)/3);
 	}
 
 }

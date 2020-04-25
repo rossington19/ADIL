@@ -9,7 +9,9 @@ class question {
 
 	draw(){
 		textSize(60);
+		textStyle(BOLD);
 		text(this.question, width/2, (0.5*height)/3);
+		textStyle(NORMAL);
 		textSize(70);
 		rectMode(CENTER);
 		push();
@@ -35,18 +37,28 @@ var myQuestions = new Array();
 var correctAnswer = false;
 var incorrectAnswer = false;
 myQuestions.push( new question("What is the name of my car?", "Barty", "Berty", "Benny", 2) );
-myQuestions.push( new question("What is the name of my future album?", "Scrapbook House", "Exposed Flesh", "Correct Rainbow", 1) );
-myQuestions.push( new question("What road do I live on in Bristol?", "Braemar Ave", "Brighton Ave", "Brook Ave", 1) );
 myQuestions.push( new question("What uni am I currently studying at?", "Cardiff", "Univeristy of Bistol", "UWE", 3) );
-myQuestions.push( new question("What was the name of my bike tour?", "Small Dude Cycling Big", "Small Guy Long Ride", "Mini Man Going Far", 2) );
 myQuestions.push( new question("Where did I live in France?", "Lyon", "Toulon", "Toulouse", 3) );
-myQuestions.push( new question("Music Round! What song am I trying to play?", "Clocks", "Yellow", "Fix You", 1) );
-myQuestions.push( new question("Music Round! What song do I know all the words to?", "Clocks", "The Day I Died", "Bad Guy", 2) );
+myQuestions.push( new question("What road do I live on in Bristol?", "Braemar Ave", "Brighton Ave", "Brook Ave", 1) );
+myQuestions.push( new question("What was the name of my bike tour?", "Small Dude Cycling Big", "Small Guy Long Ride", "Mini Man Going Far", 2) );
 
+myQuestions.push( new question("What are the first 3 colours of the rainbow?", "Red, Orange, Yellow", "Red, Yellow, Pink", "Red, Yellow, Green", 1) );
+myQuestions.push( new question("What is the name of my future album?", "Scrapbook House", "Exposed Flesh", "Correct Rainbow", 1) );
+myQuestions.push( new question("What insult did you use on me on the 22nd of April?", "Little Bitch", "Fat Turd", "Knob Head", 1) );
+myQuestions.push( new question("What colour are my eyes?", "Poopy Brown", "Whiskey", "Black - Like my soul", 2) );
+myQuestions.push( new question("How many kisses did I send you in my first message?", "1", "2", "3", 2) );
+myQuestions.push( new question("What do I always call you in Spanish?", "Aburrida", "Guapo", "Bonita", 3) );
+
+myQuestions.push( new question("Music Round! What song do I know all the words to?", "Clocks", "The Day I Died", "Bad Guy", 2) );
+myQuestions.push( new question("Music Round! What song am I trying to play?", "Clocks", "Yellow", "Fix You", 1) );
+
+let polySynth;
 
 function setup() {
 	createCanvas(window.innerWidth, window.innerHeight);
 	noStroke();
+	polySynth = new p5.PolySynth();
+	userStartAudio();
 }
 
 function draw() {
@@ -93,8 +105,10 @@ function q0(){
 	fill(255);
 	text("Now we have cocktails", width/2, (0.9*height)/3);
 	text("the first stop on our date is", width/2, (1.2*height)/3);
-	textSize(90);
+	textSize(100);
+	textStyle(BOLD);
 	text("A PUB QUIZ", width/2, (1.8*height)/3);
+	textStyle(NORMAL);
 }
 
 
@@ -111,31 +125,35 @@ function mousePressed(){
 	if(qNum === -1){
 		qNum = 0;
 	} else if (qNum < myQuestions.length) {
-		var answer;
 		if(mouseX > (width/2)-400 && mouseX < (width/2)+400 ){
 			if (mouseY > (1.2*height)/3-75  && mouseY < (1.2*height)/3+25 ){
-				answer = 1;
+				checkAnswer(1);
 			}
 			if (mouseY > (1.8*height)/3-75  && mouseY < (1.8*height)/3+25 ){
-				answer = 2;
+				checkAnswer(2);
 			}
 			if (mouseY > (2.4*height)/3-75  && mouseY < (2.4*height)/3+25 ){
-				answer = 3;
+				checkAnswer(3);
 			}
-		}
-		if(answer === myQuestions[qNum].correct){
-			correct();
-		} else {
-			incorrect();
 		}
 	} else {
 		window.location.href = 'https://rossington19.github.io/ADIL/music.html';
 	}
+}
 
+function checkAnswer(num){
+	if(num === myQuestions[qNum].correct){
+		correct();
+	} else {
+		incorrect();
+	}
 }
 
 function correct(){
 	correctAnswer = true;
+	polySynth.play('G4', 0.6, 0, 0.2);
+	polySynth.play('B5', 0.6, 0, 0.2);
+	polySynth.play('D5', 0.6, 0, 0.2);
 	setTimeout(() => { 
 		qNum++;
 		correctAnswer = false;
@@ -144,6 +162,9 @@ function correct(){
 }
 
 function incorrect(){
+	polySynth.play('G3', 0.6, 0, 0.2);
+	polySynth.play('A#3', 0.6, 0, 0.2);
+	polySynth.play('D4', 0.6, 0, 0.2);
 	incorrectAnswer = true;
 	setTimeout(() => { 
 		incorrectAnswer = false;
