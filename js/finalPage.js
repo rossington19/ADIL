@@ -1,5 +1,6 @@
 var count = 0;
 var hide = 1;
+var hide2 = 1;
 
 function setup() {
 	createCanvas(window.innerWidth, window.innerHeight);
@@ -30,19 +31,30 @@ function draw() {
 	if(count > 100 && hide > 0){
 		hide -= 0.04;
 	}
+	if(count > 160 && hide2 > 0){
+		hide2 -= 0.04;
+	}
 
 	if(count > 130){
-		textSize(100);
-		fill(255,255,255, (count-130)*20);
-		text("So yeah... I got Netflix!", width/2, (1.4*height)/3);
+		textSize(70);
+		fill(255,255,255, hide2*(count-130)*20);
+		text("So yeah... I was going to buy Netflix", width/2, (1.0*height)/3);
+		text("But then someone was a twat and beat me to it", width/2, (1.4*height)/3);
 	}
 
 	if(count > 150){
-		textSize(40);
-		fill(255,255,255, (count-150)*20);
-		text("Click to get redirected", width/2, (2.3*height)/3);
+		textSize(20);
+		fill(255,255,255, hide2*(count-150)*20);
+		text("Twat", width/2, (2.3*height)/3);
 	}
+	
 
+
+	if(count > 190){
+		textSize(120);
+		fill(255,255,255, (count-190)*20);
+		text("Thank you for being amazing", width/2, (1.4*height)/3);
+	}
 }
 
 
@@ -67,6 +79,7 @@ function backgroundColor(count){
 
 function mousePressed(){
 	if (count > 150){
-		window.location.href = 'https://www.netflix.com/gb/login';
+		count += 86;
+		// window.location.href = 'https://www.netflix.com/gb/login';
 	}
 }
